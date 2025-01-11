@@ -1,4 +1,4 @@
-const { REST, Routes } = require('discord.js');
+const { REST, Routes, SlashCommandSubcommandBuilder } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
 require('dotenv').config();
@@ -16,6 +16,10 @@ for (const folder of commandFolders) {
 	for (const file of commandFiles) {
 		const filePath = path.join(commandsPath, file);
 		const command = require(filePath);
+
+		// Skip subcommands
+		if (command.data instanceof SlashCommandSubcommandBuilder) continue;
+
 		if ('data' in command && 'execute' in command) {
 			commands.push(command.data.toJSON());
 		} else {
