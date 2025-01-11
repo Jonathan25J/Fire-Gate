@@ -1,0 +1,19 @@
+{
+  "name": "fire-gate",
+  "version": "1.0.0",
+  "description": "Discord bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Jonaqhan",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.17.3",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "eslint": "^9.18.0"
+  }
+}
