@@ -6,3 +6,15 @@ services:
     volumes:
       - .:/bot
       - /bot/node_modules
+  database:
+    image: postgres:17.2
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 54827:5432
+    volumes:
+      - ./database/data:/var/lib/postgresql/data
+      - ./database/scripts/create:/docker-entrypoint-initdb.d
