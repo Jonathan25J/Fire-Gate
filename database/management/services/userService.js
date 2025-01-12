@@ -17,10 +17,10 @@ class UserService {
     const result = await executeQuery(client, queryText, values);
 
     if (result && result.length > 0) {
-      console.log('User found:', result[0]);
+      console.debug('User found:', result[0]);
       return result[0];
     } else {
-      console.log('User not found');
+      console.debug('User not found');
       return null;
     }
   }

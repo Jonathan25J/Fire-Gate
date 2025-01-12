@@ -17,10 +17,10 @@ class SpiritService {
         const result = await executeQuery(client, queryText, values);
 
         if (result && result.length > 0) {
-            console.log('Spirit found:', result[0]);
+            console.debug('Spirit found:', result[0]);
             return result[0];
         } else {
-            console.log('Spirit not found');
+            console.debug('Spirit not found');
             return null;
         }
     }

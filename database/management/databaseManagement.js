@@ -14,11 +14,11 @@ function createClient() {
 async function createConnection(client) {
   try {
       if (client._connected) {
-          console.log('Already connected to the database');
+          console.debug('Already connected to the database');
           return; 
       }
       await client.connect();
-      console.log('Connected to the database');
+      console.debug('Connected to the database');
   } catch (err) {
       console.error('Connection error', err.stack);
       throw err;
@@ -38,7 +38,7 @@ async function executeQuery(client, queryText, values) {
 async function closeConnection(client) {
     try {
       await client.end();
-      console.log('Database connection closed');
+      console.debug('Database connection closed');
     } catch (err) {
       console.error('Error closing connection', err.stack);
     }
