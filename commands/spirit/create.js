@@ -34,8 +34,7 @@ module.exports = {
 		}
 
 		if (color && !isHexColor(color)) {
-			await interaction.reply({ content: 'Invalid color format. Please provide a valid hex color.', flags: MessageFlags.Ephemeral });
-			return;
+			return await interaction.reply({ content: 'Invalid color format. Please provide a valid hex color.', flags: MessageFlags.Ephemeral });
 		}
 
 		const isSpiritCreated = await spiritService.createSpirit(name, avatarUrl, color, userId);

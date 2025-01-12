@@ -3,6 +3,7 @@ const createCommand = require('./create');
 const messageCommand = require('./message');
 const listCommand = require('./list');
 const removeCommand = require('./remove');
+const editCommand = require('./edit');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -11,7 +12,8 @@ module.exports = {
 		.addSubcommand(createCommand.data)
 		.addSubcommand(messageCommand.data)
 		.addSubcommand(listCommand.data)
-		.addSubcommand(removeCommand.data),
+		.addSubcommand(removeCommand.data)
+		.addSubcommand(editCommand.data),
 
 	async execute(interaction) {
 		const subcommand = interaction.options.getSubcommand();
@@ -28,6 +30,9 @@ module.exports = {
 				break;
 			case 'remove':
 				await removeCommand.execute(interaction);
+				break;
+			case 'edit':
+				await editCommand.execute(interaction);
 				break;
             default:
                 await interaction.reply({ content: 'Unknown subcommand', flags: MessageFlags.Ephemeral });
