@@ -47,6 +47,20 @@ class SpiritService {
             return [];
         }
     }
+
+    async removeSpiritByNameAndUser(client, name, discordUserId) {
+        const queryText = 'DELETE FROM spirit WHERE name = $1 AND discord_user_id = $2 RETURNING *;';
+        const values = [name, discordUserId];
+        const result = await executeQuery(client, queryText, values);
+
+        if (result && result.length > 0) {
+            logger.debug('Spirit removed:', result[0]);
+            return result[0];
+        } else {
+            logger.debug('Spirit not found or could not be removed');
+            return null;
+        }
+    }
 }
 
 // Wrap the methods with connection handling

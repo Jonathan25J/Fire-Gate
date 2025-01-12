@@ -1,5 +1,4 @@
 const { SlashCommandSubcommandBuilder, EmbedBuilder, MessageFlags } = require('discord.js');
-const userService = require('../../database/management/services/userService');
 const spiritService = require('../../database/management/services/spiritService');
 
 module.exports = {
@@ -11,7 +10,7 @@ module.exports = {
         const userId = interaction.user.id;
 
         const spirits = await spiritService.getSpiritsFromUser(userId);
-        console.log(spirits);
+
         if (spirits.length === 0) {
             return await interaction.reply({ content: 'You don\'t have any spirits.', flags: MessageFlags.Ephemeral });
         }
