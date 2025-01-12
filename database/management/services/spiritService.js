@@ -7,14 +7,14 @@ class SpiritService {
     }
 
     async createSpirit(client, name, avatar, color, discordUserId) {
-        const queryText = 'INSERT INTO spirit (name, avatar, color, discord_userid) VALUES ($1, $2, $3, $4) ON CONFLICT (name) DO NOTHING RETURNING *;';
+        const queryText = 'INSERT INTO spirit (name, avatar, color, discord_user_id) VALUES ($1, $2, $3, $4) ON CONFLICT (name) DO NOTHING RETURNING *;';
         const values = [name, avatar, color, discordUserId];
         const result = await executeQuery(client, queryText, values);
 
         if (result && result.length > 0) {
-            logger.log('Spirit created:', result[0]);
+            logger.debug('Spirit created:', result[0]);
           } else {
-            logger.log('Spirit already exists or no rows were returned.');
+            logger.debug('Spirit already exists or no rows were returned.');
           }
 
         return result && result.length > 0;
@@ -31,6 +31,20 @@ class SpiritService {
         } else {
             logger.debug('Spirit not found');
             return null;
+        }
+    }
+
+    async getSpiritsFromUser(client, discordUserId) {
+        const queryText = 'SELECT * FROM spirit WHERE discord_user_id = $1;';
+        const values = [discordUserId];
+        const result = await executeQuery(client, queryText, values);
+
+        if (result && result.length > 0) {
+            logger.debug('Spirits found for user:', result);
+            return result;
+        } else {
+            logger.debug('No spirits found for user');
+            return [];
         }
     }
 }

@@ -14,6 +14,11 @@ module.exports = {
 			return;
 		}
 
+		// Check if the interaction is in a server
+		if (interaction.guild) {
+			return await interaction.reply({ content: 'You can only use this bot inside your DM for security reasons.', flags: MessageFlags.Ephemeral });
+		}
+
 		try {
 			await command.execute(interaction);
 		} catch (error) {

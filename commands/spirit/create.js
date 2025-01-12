@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder } = require('discord.js');
+const { SlashCommandSubcommandBuilder, MessageFlags } = require('discord.js');
 const userService = require('../../database/management/services/userService');
 const spiritService = require('../../database/management/services/spiritService');
 
@@ -30,21 +30,20 @@ module.exports = {
 		}
 
 		if (avatarUrl && !isImageUrl(avatarUrl)) {
-			await interaction.reply({ content: 'Invalid image URL. Please provide a valid image URL that ends with an image file extension', ephemeral: true });
-			return;
+			return await interaction.reply({ content: 'Invalid image URL. Please provide a valid image URL that ends with an image file extension', flags: MessageFlags.Ephemeral });
 		}
 
 		if (color && !isHexColor(color)) {
-			await interaction.reply({ content: 'Invalid color format. Please provide a valid hex color.', ephemeral: true });
+			await interaction.reply({ content: 'Invalid color format. Please provide a valid hex color.', flags: MessageFlags.Ephemeral });
 			return;
 		}
 
 		const isSpiritCreated = await spiritService.createSpirit(name, avatarUrl, color, userId);
 		
 		if (isSpiritCreated) {
-			await interaction.reply({ content: `Spirit ${name} created!`, ephemeral: true });
+			await interaction.reply({ content: `Spirit ${name} created!`, flags: MessageFlags.Ephemeral });
 		} else {
-			await interaction.reply({ content: `Spirit ${name} already exists.`, ephemeral: true });
+			await interaction.reply({ content: `Spirit ${name} already exists.`, flags: MessageFlags.Ephemeral });
 		}
 	},
 };
