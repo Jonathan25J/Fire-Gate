@@ -1,9 +1,11 @@
 const { Events } = require('discord.js');
+const path = require('node:path');
+const logger = require(path.join(process.cwd(), 'logger'));
 
 module.exports = {
 	name: Events.ClientReady,
 	once: true,
 	execute(client) {
-		console.info(`Ready! Logged in as ${client.user.tag}`);
+		logger.info(`Ready! Logged in as ${client.user.tag}`);
 	},
 };

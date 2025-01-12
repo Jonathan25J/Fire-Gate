@@ -1,4 +1,6 @@
 const { Client } = require('pg');
+const path = require('node:path');
+const logger = require(path.join(process.cwd(), 'logger'));
 require('dotenv').config();
 
 function createClient() {
@@ -14,13 +16,13 @@ function createClient() {
 async function createConnection(client) {
   try {
       if (client._connected) {
-          console.debug('Already connected to the database');
+          logger.debug('Already connected to the database');
           return; 
       }
       await client.connect();
-      console.debug('Connected to the database');
+      logger.debug('Connected to the database');
   } catch (err) {
-      console.error('Connection error', err.stack);
+      logger.error('Connection error', err.stack);
       throw err;
   }
 }
@@ -30,7 +32,7 @@ async function executeQuery(client, queryText, values) {
     const res = await client.query(queryText, values);
     return res.rows;
   } catch (err) {
-    console.error('Error executing query', err.stack);
+    logger.error('Error executing query', err.stack);
     throw err;
   }
 }
@@ -38,9 +40,9 @@ async function executeQuery(client, queryText, values) {
 async function closeConnection(client) {
     try {
       await client.end();
-      console.debug('Database connection closed');
+      logger.debug('Database connection closed');
     } catch (err) {
-      console.error('Error closing connection', err.stack);
+      logger.error('Error closing connection', err.stack);
     }
   }
 
@@ -52,7 +54,7 @@ async function closeConnection(client) {
         const result = await func(client, ...args);
         return result;
       } catch (error) {
-        console.error(`Error during ${func.name}:`, error);
+        logger.error(`Error during ${func.name}:`, error);
         throw error;
       } finally {
         await closeConnection(client);

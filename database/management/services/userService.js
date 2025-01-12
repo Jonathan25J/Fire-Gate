@@ -1,4 +1,6 @@
 const { connectionHandling, executeQuery } = require('../databaseManagement');
+const path = require('node:path');
+const logger = require(path.join(process.cwd(), 'logger'));
 
 class UserService {
   constructor() {
@@ -8,6 +10,13 @@ class UserService {
     const queryText = 'INSERT INTO discord_user (id) VALUES ($1) ON CONFLICT (id) DO NOTHING RETURNING *;';
     const values = [userId];
     const result = await executeQuery(client, queryText, values);
+
+    if (result && result.length > 0) {
+      logger.debug('User created:', result[0]);
+    } else {
+      logger.debug('User already exists or no rows were returned.');
+    }
+
     return result && result.length > 0;
   }
 
@@ -17,10 +26,10 @@ class UserService {
     const result = await executeQuery(client, queryText, values);
 
     if (result && result.length > 0) {
-      console.debug('User found:', result[0]);
+      logger.debug('User found:', result[0]);
       return result[0];
     } else {
-      console.debug('User not found');
+      logger.debug('User not found');
       return null;
     }
   }
@@ -29,6 +38,13 @@ class UserService {
     const queryText = 'DELETE FROM discord_user WHERE id = $1 RETURNING *;';
     const values = [userId];
     const result = await executeQuery(client, queryText, values);
+
+    if (result && result.length > 0) {
+      logger.debug('User deleted:', result[0]);
+    } else {
+      logger.debug('User not found');
+    }
+
     return result && result.length > 0;
   }
 }

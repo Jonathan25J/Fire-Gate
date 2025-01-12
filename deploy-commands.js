@@ -1,6 +1,7 @@
 const { REST, Routes, SlashCommandSubcommandBuilder } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
+const logger = require('./logger');
 require('dotenv').config();
 
 const commands = [];
@@ -23,7 +24,7 @@ for (const folder of commandFolders) {
 		if ('data' in command && 'execute' in command) {
 			commands.push(command.data.toJSON());
 		} else {
-			console.warn(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+			logger.warn(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
 		}
 	}
 }
@@ -34,7 +35,7 @@ const rest = new REST().setToken(process.env.BOT_TOKEN);
 // and deploy your commands!
 (async () => {
 	try {
-		console.info(`Started refreshing ${commands.length} application (/) commands.`);
+		logger.info(`Started refreshing ${commands.length} application (/) commands.`);
 
 		// The put method is used to fully refresh all commands in the guild with the current set
 		const data = await rest.put(
@@ -42,9 +43,9 @@ const rest = new REST().setToken(process.env.BOT_TOKEN);
 			{ body: commands },
 		);
 
-		console.info(`Successfully reloaded ${data.length} application (/) commands.`);
+		logger.info(`Successfully reloaded ${data.length} application (/) commands.`);
 	} catch (error) {
 		// And of course, make sure you catch and log any errors!
-		console.error(error);
+		logger.error(error);
 	}
 })();
