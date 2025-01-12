@@ -1,5 +1,6 @@
 const { SlashCommandSubcommandBuilder } = require('discord.js');
 const userService = require('../../database/management/services/userService');
+const spiritService = require('../../database/management/services/spiritService');
 
 module.exports = {
 	data: new SlashCommandSubcommandBuilder()
@@ -11,21 +12,49 @@ module.exports = {
 				.setRequired(true))
 		.addStringOption(option =>
 			option.setName('avatar_url')
-				.setDescription('The URL of the spirit\'s avatar')),
+				.setDescription('The URL of the spirit\'s avatar'))
+		.addStringOption(option =>
+			option.setName('color')
+				.setDescription('Your spirit\'s color in hex format')),
 
 	async execute(interaction) {
-		const userId = interaction.user.id; 
+		const userId = interaction.user.id;
 		const name = interaction.options.getString('name');
 		const avatarUrl = interaction.options.getString('avatar_url');
+		const color = interaction.options.getString('color');
 
 		const user = await userService.getUserById(userId);
 
-		if (user) {
-			console.log(`Creating a new spirit for user: ${userId}, Name: ${name}, Avatar: ${avatarUrl}`);
-		} else {
-			console.log(`User ${userId} not found in the database.`);
-			await interaction.reply({ content: 'User not found. Please register first.', ephemeral: true });
+		if (!(user)) {
+			await userService.createUser(userId);
 		}
+
+		if (avatarUrl && !isImageUrl(avatarUrl)) {
+			await interaction.reply({ content: 'Invalid image URL. Please provide a valid image URL that ends with an image file extension', ephemeral: true });
+			return;
+		}
+
+		if (color && !isHexColor(color)) {
+			await interaction.reply({ content: 'Invalid color format. Please provide a valid hex color.', ephemeral: true });
+			return;
+		}
+
+		const isSpiritCreated = await spiritService.createSpirit(name, avatarUrl, color, userId);
 		
+		if (isSpiritCreated) {
+			await interaction.reply({ content: `Spirit ${name} created!`, ephemeral: true });
+		} else {
+			await interaction.reply({ content: `Spirit ${name} already exists.`, ephemeral: true });
+		}
 	},
 };
+
+function isImageUrl(url) {
+	const imageExtensions = /\.(jpg|jpeg|png|gif|bmp|webp)$/i;
+	return imageExtensions.test(url);
+}
+
+function isHexColor(value) {
+    const hexPattern = /^#([0-9A-Fa-f]{3}){1,2}([0-9A-Fa-f]{2})?$/;
+    return hexPattern.test(value);
+}

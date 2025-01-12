@@ -4,22 +4,17 @@ class UserService {
   constructor() {
   }
 
-  async createUser(userId) {
+  async createUser(client, userId) {
     const queryText = 'INSERT INTO discord_user (id) VALUES ($1) ON CONFLICT (id) DO NOTHING RETURNING *;';
     const values = [userId];
-    const result = await executeQuery(queryText, values);
-
-    if (result && result.length > 0) {
-      console.log('User created:', result[0]);
-    } else {
-      console.log('User already exists or no rows were returned.');
-    }
+    const result = await executeQuery(client, queryText, values);
+    return result && result.length > 0;
   }
 
-  async getUserById(userId) {
+  async getUserById(client, userId) {
     const queryText = 'SELECT * FROM discord_user WHERE id = $1;';
     const values = [userId];
-    const result = await executeQuery(queryText, values);
+    const result = await executeQuery(client, queryText, values);
 
     if (result && result.length > 0) {
       console.log('User found:', result[0]);
@@ -30,16 +25,11 @@ class UserService {
     }
   }
 
-  async deleteUserById(userId) {
+  async deleteUserById(client, userId) {
     const queryText = 'DELETE FROM discord_user WHERE id = $1 RETURNING *;';
     const values = [userId];
-    const result = await executeQuery(queryText, values);
-
-    if (result && result.length > 0) {
-      console.log('User deleted:', result[0]);
-    } else {
-      console.log('User not found');
-    }
+    const result = await executeQuery(client, queryText, values);
+    return result && result.length > 0;
   }
 }
 
