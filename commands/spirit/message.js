@@ -21,7 +21,8 @@ module.exports = {
 
 	async execute(interaction) {
 		const userId = interaction.user.id;
-		const GivenReceiver = await identifyReceiver(interaction.options.getString('user-or-spirit'));
+		const userOrSpirit = interaction.options.getString('user-or-spirit');
+		const GivenReceiver = await identifyReceiver(userOrSpirit);
 		const GivenSpirit = interaction.options.getString('spirit');
 		const message = interaction.options.getString('message');
 
@@ -47,7 +48,7 @@ module.exports = {
 		}
 
 		const embed = new EmbedBuilder()
-			.setTitle(spirit.name)
+			.setTitle(`${spirit.name} -> ${userOrSpirit}`)
 			.setThumbnail(spirit.avatar)
 			.setDescription(message)
 			.setFooter({ text: `Reply with: \`/spirit message ${spirit.name} [your spirit] [message]\`` })
@@ -55,7 +56,12 @@ module.exports = {
 
 		await receiver.send({ embeds: [embed] });
 
-		await interaction.reply({ embeds: [embed] });
+		if (interaction.guild) {
+			await interaction.user.send({ embeds: [embed] });
+			return await interaction.reply({ content: 'Your message has been send', flags: MessageFlags.Ephemeral });
+		} else {
+			await interaction.reply({ embeds: [embed] });
+		}
 
 	},
 };

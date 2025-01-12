@@ -40,7 +40,7 @@ module.exports = {
 		const isSpiritCreated = await spiritService.createSpirit(name, avatarUrl, color, userId);
 		
 		if (isSpiritCreated) {
-			await interaction.reply({ content: `Spirit **${name}** created!`, flags: MessageFlags.Ephemeral });
+			await interaction.reply({ content: `Spirit **${name}** is summoned!`, flags: MessageFlags.Ephemeral });
 		} else {
 			await interaction.reply({ content: `The spirit name **${name}** is already in use.`, flags: MessageFlags.Ephemeral });
 		}

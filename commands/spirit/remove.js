@@ -17,7 +17,7 @@ module.exports = {
         const isSpiritRemoved = await spiritService.removeSpiritByNameAndUser(nameSpirit, userId);
 
         if (isSpiritRemoved) {
-            await interaction.reply({ content: `Spirit **${nameSpirit}** is removed`, flags: MessageFlags.Ephemeral });
+            await interaction.reply({ content: `Spirit **${nameSpirit}** is gone`, flags: MessageFlags.Ephemeral });
         } else {
             await interaction.reply({ content: `Spirit **${nameSpirit}** does not exists here`, flags: MessageFlags.Ephemeral });
         }
