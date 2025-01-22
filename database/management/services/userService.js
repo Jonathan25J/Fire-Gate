@@ -27,26 +27,13 @@ class UserService {
 
     if (result && result.length > 0) {
       logger.debug('User found:', result[0]);
-      return result[0];
-    } else {
-      logger.debug('User not found');
-      return null;
-    }
-  }
-
-  async deleteUserById(client, userId) {
-    const queryText = 'DELETE FROM discord_user WHERE id = $1 RETURNING *;';
-    const values = [userId];
-    const result = await executeQuery(client, queryText, values);
-
-    if (result && result.length > 0) {
-      logger.debug('User deleted:', result[0]);
     } else {
       logger.debug('User not found');
     }
 
-    return result && result.length > 0;
+    return result && result.length > 0 ? result[0] : null;
   }
+
 }
 
 // Wrap the methods with connection handling

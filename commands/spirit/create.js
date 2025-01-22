@@ -34,7 +34,7 @@ module.exports = {
 		}
 
 		if (color && !isHexColor(color)) {
-			return await interaction.reply({ content: 'Invalid color format. Please provide a valid hex color.', flags: MessageFlags.Ephemeral });
+			return await interaction.reply({ content: 'Invalid color format. Please provide a valid hex color', flags: MessageFlags.Ephemeral });
 		}
 
 		const isSpiritCreated = await spiritService.createSpirit(name, avatarUrl, color, userId);
@@ -42,7 +42,7 @@ module.exports = {
 		if (isSpiritCreated) {
 			await interaction.reply({ content: `Spirit **${name}** is summoned!`, flags: MessageFlags.Ephemeral });
 		} else {
-			await interaction.reply({ content: `The spirit name **${name}** is already in use.`, flags: MessageFlags.Ephemeral });
+			await interaction.reply({ content: `The spirit name **${name}** is already in use`, flags: MessageFlags.Ephemeral });
 		}
 	},
 };

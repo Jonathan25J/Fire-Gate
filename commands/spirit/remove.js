@@ -19,7 +19,7 @@ module.exports = {
         if (isSpiritRemoved) {
             await interaction.reply({ content: `Spirit **${nameSpirit}** is gone`, flags: MessageFlags.Ephemeral });
         } else {
-            await interaction.reply({ content: `Spirit **${nameSpirit}** does not exists here`, flags: MessageFlags.Ephemeral });
+            await interaction.reply({ content: `Spirit **${nameSpirit}** does not exists here or is standing by a gate`, flags: MessageFlags.Ephemeral });
         }
 
     },

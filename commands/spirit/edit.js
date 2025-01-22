@@ -26,17 +26,17 @@ module.exports = {
         const user = await userService.getUserById(userId);
 
         if (!(user)) {
-            return await interaction.reply({ content: 'You need to create a spirit first. Please use the `/spirit create` command to create one.', flags: MessageFlags.Ephemeral });
+            return await interaction.reply({ content: 'You need to create a spirit first. Please use the `/spirit create` command to create one', flags: MessageFlags.Ephemeral });
         }
 
         const spirit = await spiritService.getSpiritByName(name);
 
         if (!spirit || spirit.discord_user_id !== userId) {
-            return await interaction.reply({ content: `The spirit **${name}** does not exist here.`, flags: MessageFlags.Ephemeral });
+            return await interaction.reply({ content: `The spirit **${name}** does not exist here`, flags: MessageFlags.Ephemeral });
         }
 
         if (!avatarUrl && !color) {
-            return await interaction.reply({ content: 'You need to provide at least one field to edit.', flags: MessageFlags.Ephemeral });
+            return await interaction.reply({ content: 'You need to provide at least one field to edit', flags: MessageFlags.Ephemeral });
         }
 
         if (avatarUrl && !isImageUrl(avatarUrl)) {
@@ -46,7 +46,7 @@ module.exports = {
         }
 
         if (color && !isHexColor(color)) {
-            return await interaction.reply({ content: 'Invalid color format. Please provide a valid hex color.', flags: MessageFlags.Ephemeral });
+            return await interaction.reply({ content: 'Invalid color format. Please provide a valid hex color', flags: MessageFlags.Ephemeral });
         } else if (!color) {
             color = spirit.color;
         }
@@ -56,7 +56,7 @@ module.exports = {
         if (isSpiritEdited) {
             await interaction.reply({ content: `Spirit **${name}** has been edited!`, flags: MessageFlags.Ephemeral });
         } else {
-            await interaction.reply({ content: `The spirit **${name}** could not be edited.`, flags: MessageFlags.Ephemeral });
+            await interaction.reply({ content: `The spirit **${name}** could not be edited`, flags: MessageFlags.Ephemeral });
         }
     },
 };

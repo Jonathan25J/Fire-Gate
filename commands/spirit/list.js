@@ -11,8 +11,8 @@ module.exports = {
 
         const spirits = await spiritService.getSpiritsFromUser(userId);
 
-        if (spirits.length === 0) {
-            return await interaction.reply({ content: 'You don\'t have any spirits.', flags: MessageFlags.Ephemeral });
+        if (!spirits) {
+            return await interaction.reply({ content: 'You don\'t have any spirits', flags: MessageFlags.Ephemeral });
         }
 
         await interaction.reply({ content: 'You have the following spirits:', flags: MessageFlags.Ephemeral });

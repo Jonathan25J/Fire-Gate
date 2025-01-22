@@ -27,11 +27,11 @@ class SpiritService {
 
         if (result && result.length > 0) {
             logger.debug('Spirit found:', result[0]);
-            return result[0];
         } else {
             logger.debug('Spirit not found');
-            return null;
         }
+
+        return result && result.length > 0 ? result[0] : null;
     }
 
     async getSpiritsFromUser(client, discordUserId) {
@@ -41,27 +41,32 @@ class SpiritService {
 
         if (result && result.length > 0) {
             logger.debug('Spirits found for user:', result);
-            return result;
         } else {
             logger.debug('No spirits found for user');
-            return [];
         }
+
+        return result && result.length > 0 ? result : [];
     }
 
     async removeSpiritByNameAndUser(client, name, discordUserId) {
-        const queryText = 'DELETE FROM spirit WHERE name = $1 AND discord_user_id = $2 RETURNING *;';
-        const values = [name, discordUserId];
-        const result = await executeQuery(client, queryText, values);
+        try {
+            const queryText = 'DELETE FROM spirit WHERE name = $1 AND discord_user_id = $2 RETURNING *;';
+            const values = [name, discordUserId];
+            const result = await executeQuery(client, queryText, values);
+    
+            if (result && result.length > 0) {
+                logger.debug('Spirit removed:', result[0]);
+            } else {
+                logger.debug('Spirit not found or could not be removed');
+            }
 
-        if (result && result.length > 0) {
-            logger.debug('Spirit removed:', result[0]);
-            return result[0];
-        } else {
-            logger.debug('Spirit not found or could not be removed');
+            return result && result.length > 0 ? result[0] : null;
+        } catch (error) {
+            logger.error('Error removing spirit:', error);
             return null;
         }
     }
-
+    
     async editSpirit(client, name, avatar, color, discordUserId) {
         const queryText = 'UPDATE spirit SET avatar = $1, color = $2 WHERE name = $3 AND discord_user_id = $4 RETURNING *;';
         const values = [avatar, color, name, discordUserId];
@@ -69,11 +74,11 @@ class SpiritService {
 
         if (result && result.length > 0) {
             logger.debug('Spirit updated:', result[0]);
-            return result[0];
         } else {
             logger.debug('Spirit not found or could not be updated');
-            return null;
         }
+
+        return result && result.length > 0 ? result[0] : null;
     }
 }
 

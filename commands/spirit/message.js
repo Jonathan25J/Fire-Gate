@@ -29,7 +29,7 @@ module.exports = {
 		const user = await userService.getUserById(userId);
 
 		if (!(user)) {
-			return await interaction.reply({ content: 'You need to create a spirit first. Please use the `/spirit create` command to create one.', flags: MessageFlags.Ephemeral });
+			return await interaction.reply({ content: 'You need to create a spirit first. Please use the `/spirit create` command to create one', flags: MessageFlags.Ephemeral });
 		}
 
 		let receiver = null;
@@ -38,13 +38,13 @@ module.exports = {
 		}
 
 		if (!receiver) {
-			return await interaction.reply({ content: 'The spirit or user you are trying to message does not exist.', flags: MessageFlags.Ephemeral });
+			return await interaction.reply({ content: 'The spirit or user you are trying to message does not exist', flags: MessageFlags.Ephemeral });
 		}
 
 		const spirit = await spiritService.getSpiritByName(GivenSpirit);
 
 		if (!spirit) {
-			return await interaction.reply({ content: 'The spirit you are trying to use does not exist.', flags: MessageFlags.Ephemeral });
+			return await interaction.reply({ content: 'The spirit you are trying to use does not exist', flags: MessageFlags.Ephemeral });
 		}
 
 		const embed = new EmbedBuilder()
