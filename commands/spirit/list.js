@@ -12,7 +12,7 @@ module.exports = {
         const spirits = await spiritService.getSpiritsFromUser(userId);
 
         if (!spirits) {
-            return await interaction.reply({ content: 'You don\'t have any spirits.', flags: MessageFlags.Ephemeral });
+            return await interaction.reply({ content: 'You don\'t have any spirits', flags: MessageFlags.Ephemeral });
         }
 
         await interaction.reply({ content: 'You have the following spirits:', flags: MessageFlags.Ephemeral });
