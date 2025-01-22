@@ -45,7 +45,7 @@ class SpiritService {
             logger.debug('No spirits found for user');
         }
 
-        return result && result.length > 0 ? result : [];
+        return result && result.length > 0 ? result : null;
     }
 
     async removeSpiritByNameAndUser(client, name, discordUserId) {
