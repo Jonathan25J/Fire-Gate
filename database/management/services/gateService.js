@@ -49,17 +49,22 @@ class GateService {
     }
 
     async removeGateByNameAndUser(client, name, discordUserId) {
-        const queryText = 'DELETE FROM gate WHERE name = $1 AND discord_user_id = $2 RETURNING *;';
-        const values = [name, discordUserId];
-        const result = await executeQuery(client, queryText, values);
+        try {
+            const queryText = 'DELETE FROM gate WHERE name = $1 AND discord_user_id = $2 RETURNING *;';
+            const values = [name, discordUserId];
+            const result = await executeQuery(client, queryText, values);
 
-        if (result && result.length > 0) {
-            logger.debug('Gate removed:', result[0]);
-        } else {
-            logger.debug('No gate found or could not be removed.');
+            if (result && result.length > 0) {
+                logger.debug('Gate removed:', result[0]);
+            } else {
+                logger.debug('No gate found or could not be removed.');
+            }
+
+            return result && result.length > 0;
+        } catch (error) {
+            logger.error('Error removing gate:', error);
+            return null;
         }
-
-        return result && result.length > 0;
     }
 
 }

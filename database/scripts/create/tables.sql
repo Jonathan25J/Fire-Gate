@@ -18,6 +18,6 @@ CREATE TABLE spirit (
   PRIMARY KEY (name));
 ALTER TABLE gate ADD CONSTRAINT FKgate918489 FOREIGN KEY (discord_user_id) REFERENCES discord_user (id);
 ALTER TABLE gateway ADD CONSTRAINT FKgateway634002 FOREIGN KEY (discord_user_id) REFERENCES discord_user (id);
-ALTER TABLE gateway ADD CONSTRAINT FKgateway568806 FOREIGN KEY (gate_name) REFERENCES gate (name);
+ALTER TABLE gateway ADD CONSTRAINT FKgateway568806 FOREIGN KEY (gate_name) REFERENCES gate (name) ON DELETE CASCADE;
 ALTER TABLE gateway ADD CONSTRAINT FKgateway888973 FOREIGN KEY (spirit_name) REFERENCES spirit (name);
 ALTER TABLE spirit ADD CONSTRAINT FKspirit953754 FOREIGN KEY (discord_user_id) REFERENCES discord_user (id);
