@@ -43,7 +43,7 @@ module.exports = {
         const gateway = await gatewayService.getGatewayFromUser(userId);
 
         if (gateway) {
-            return await interaction.reply({ content: `You already have a port open to **${gateway.gatename}**`, flags: MessageFlags.Ephemeral });
+            return await interaction.reply({ content: `You already have a port open to **${gateway.gate_name}**`, flags: MessageFlags.Ephemeral });
         }
 
         const isGatewayCreated = await gatewayService.createGateway(userId, gateName, spiritName);

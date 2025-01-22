@@ -19,11 +19,11 @@ module.exports = {
 
       if (!gateway) return;
 
-      const gatewayUsers = (await gatewayService.getGatewayUsersByGateName(gateway.gatename)).map(user => user.discord_user_id).filter(id => id != userId);
+      const gatewayUsers = (await gatewayService.getGatewayUsersByGateName(gateway.gate_name)).map(user => user.discord_user_id).filter(id => id != userId);
 
       if (gatewayUsers.length == 0) return;
 
-      const spirit = await spiritService.getSpiritByName(gateway.spiritname);
+      const spirit = await spiritService.getSpiritByName(gateway.spirit_name);
 
       for (const user of gatewayUsers) {
           const receiver = await message.client.users.fetch(user);

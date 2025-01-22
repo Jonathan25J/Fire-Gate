@@ -25,9 +25,9 @@ module.exports = {
         const isGateRemoved = await gatewayService.removeGatewayByUser(userId);
 
         if (isGateRemoved) {
-            return await interaction.reply({ content: `The gate **${gateway.gatename}** is now closed`, flags: MessageFlags.Ephemeral });
+            return await interaction.reply({ content: `The gate **${gateway.gate_name}** is now closed`, flags: MessageFlags.Ephemeral });
         } else {
-            return await interaction.reply({ content: `The gate **${gateway.gatename}** could not be closed`, flags: MessageFlags.Ephemeral });
+            return await interaction.reply({ content: `The gate **${gateway.gate_name}** could not be closed`, flags: MessageFlags.Ephemeral });
         }
         
 

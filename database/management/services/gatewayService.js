@@ -7,7 +7,7 @@ class GatewayService {
     }
 
     async createGateway(client, discordUserId, gateName, SpiritName) {
-        const queryText = 'INSERT INTO gateway (discord_user_id, gatename, spiritname) VALUES ($1, $2, $3) ON CONFLICT (discord_user_id) DO NOTHING RETURNING *;';
+        const queryText = 'INSERT INTO gateway (discord_user_id, gate_name, spirit_name) VALUES ($1, $2, $3) ON CONFLICT (discord_user_id) DO NOTHING RETURNING *;';
         const values = [discordUserId, gateName, SpiritName];
         const result = await executeQuery(client, queryText, values);
 
@@ -49,7 +49,7 @@ class GatewayService {
     }
 
     async getGatewayUsersByGateName(client, gateName) {
-        const queryText = 'SELECT discord_user_id FROM gateway WHERE gatename = $1;';
+        const queryText = 'SELECT discord_user_id FROM gateway WHERE gate_name = $1;';
         const values = [gateName];
         const result = await executeQuery(client, queryText, values);
     
