@@ -1,10 +1,10 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, GatewayIntentBits, SlashCommandSubcommandBuilder } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, SlashCommandSubcommandBuilder, Partials } = require('discord.js');
 const logger = require('./logger');
 require('dotenv').config();
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.DirectMessages, GatewayIntentBits.MessageContent], partials: [Partials.Channel] });
 
 client.commands = new Collection();
 

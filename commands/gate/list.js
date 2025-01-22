@@ -11,7 +11,7 @@ module.exports = {
 
         const gates = await gateService.getGatesFromUser(userId);
 
-        if (gates.length === 0) {
+        if (!gates) {
             return await interaction.reply({ content: 'You don\'t have any gates', flags: MessageFlags.Ephemeral });
         }
 

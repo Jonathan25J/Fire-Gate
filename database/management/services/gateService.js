@@ -31,7 +31,21 @@ class GateService {
             logger.debug('No gates found for the given user.');
         }
 
-        return result;
+        return result && result.length > 0 ? result : null;
+    }
+
+    async getGateByName(client, name) {
+        const queryText = 'SELECT * FROM gate WHERE name = $1;';
+        const values = [name];
+        const result = await executeQuery(client, queryText, values);
+
+        if (result && result.length > 0) {
+            logger.debug('Gate retrieved:', result[0]);
+        } else {
+            logger.debug('No gate found with the given name.');
+        }
+
+        return result && result.length > 0 ? result[0] : null;
     }
 
     async removeGateByNameAndUser(client, name, discordUserId) {
