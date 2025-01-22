@@ -27,11 +27,11 @@ class UserService {
 
     if (result && result.length > 0) {
       logger.debug('User found:', result[0]);
-      return result[0];
     } else {
       logger.debug('User not found');
-      return null;
     }
+
+    return result && result.length > 0 ? result[0] : null;
   }
 
 }
