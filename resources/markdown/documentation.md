@@ -11,4 +11,4 @@ People can also communicate with each other trough custom gates. You can create 
 
 In this case the gate is called `Secret` and contains the spirits `Water` and `Fire`.
 
-<img src="../../assets/images/custom_gate.jpeg" width=500 height=100>
+<img src="../../assets/images/custom_gate.jpeg" width=500 height=200>
