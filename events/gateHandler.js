@@ -34,6 +34,10 @@ module.exports = {
                 .setDescription(message.content)
                 .setColor(spirit.color);
 
+            if (message.attachments.size > 0 && message.attachments.first().contentType.startsWith('image')) {
+                embed.setImage(message.attachments.first().url);
+            }
+
             await receiver.send({ embeds: [embed] }).catch(err => {
                 logger.error(err);
             });
