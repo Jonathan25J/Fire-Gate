@@ -1,6 +1,7 @@
 const { Events, EmbedBuilder } = require('discord.js');
 const path = require('node:path');
 const logger = require(path.join(process.cwd(), 'logger'));
+const { isValidURL, isImageUrl } = require('../utils');
 const userService = require('../database/management/services/userService');
 const gatewayService = require('../database/management/services/gatewayService');
 const spiritService = require('../database/management/services/spiritService');
@@ -37,8 +38,7 @@ module.exports = {
                 .setColor(spirit.color);
 
             if (messageHasContent && isValidURL(messageContent) ) {
-                const isImage = await isImageUrl(messageContent);
-                if (isImage) {
+                if (isImageUrl(messageContent)) {
                     embed.setImage(messageContent);
                 } else {
                     embed.setDescription(messageContent);
@@ -58,18 +58,3 @@ module.exports = {
     },
 };
 
-function isValidURL(string) {
-    const urlPattern = new RegExp('^(https?:\\/\\/)?' +
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' +
-        '((\\d{1,3}\\.){3}\\d{1,3}))' +
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' +
-        '(\\?[;&a-z\\d%_.~+=-]*)?' +
-        '(\\#[-a-z\\d_]*)?$', 'i')
-    return urlPattern.test(string);
-}
-
-async function isImageUrl(url) {
-    const res = await fetch(url);
-    const buff = await res.blob();
-    return buff.type.startsWith('image/')
-}
