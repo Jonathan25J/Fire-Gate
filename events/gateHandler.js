@@ -40,6 +40,9 @@ module.exports = {
             if (messageHasContent && isValidURL(messageContent) ) {
                 if (isImageUrl(messageContent)) {
                     embed.setImage(messageContent);
+                } else if (messageContent.startsWith('https://tenor.com')) {
+                    const redirectUrl = await getRedirectUrl(messageContent + '.gif');
+                    embed.setImage(redirectUrl);
                 } else {
                     embed.setDescription(messageContent);
                 }
@@ -58,3 +61,7 @@ module.exports = {
     },
 };
 
+async function getRedirectUrl(url) {
+    const response = await fetch(url, { redirect: 'follow' });
+    return response.url;
+}
