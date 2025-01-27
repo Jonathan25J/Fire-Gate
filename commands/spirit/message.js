@@ -61,8 +61,8 @@ module.exports = {
 			} else {
 				await interaction.reply({ embeds: [embed] });
 			}
-		}).catch(() => {
-			return interaction.reply({ content: 'It was not possible to send the message to the user or spirit', flags: MessageFlags.Ephemeral });
+		}).catch(async () => {
+			return await interaction.reply({ content: 'It was not possible to send the message to the user or spirit', flags: MessageFlags.Ephemeral });
 		});
 
 	},
