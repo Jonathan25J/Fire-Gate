@@ -54,14 +54,16 @@ module.exports = {
 			.setFooter({ text: `Reply with: \`/spirit message ${spirit.name} [your spirit] [message]\`` })
 			.setColor(spirit.color);
 
-		await receiver.send({ embeds: [embed] });
-
-		if (interaction.guild) {
-			await interaction.user.send({ embeds: [embed] });
-			return await interaction.reply({ content: 'Your message has been send', flags: MessageFlags.Ephemeral });
-		} else {
-			await interaction.reply({ embeds: [embed] });
-		}
+		await receiver.send({ embeds: [embed] }).then(async () => {
+			if (interaction.guild) {
+				await interaction.user.send({ embeds: [embed] });
+				return await interaction.reply({ content: 'Your message has been send', flags: MessageFlags.Ephemeral });
+			} else {
+				await interaction.reply({ embeds: [embed] });
+			}
+		}).catch(() => {
+			return interaction.reply({ content: 'It was not possible to send the message to the user or spirit', flags: MessageFlags.Ephemeral });
+		});
 
 	},
 };
