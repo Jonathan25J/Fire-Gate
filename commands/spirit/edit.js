@@ -1,4 +1,5 @@
 const { SlashCommandSubcommandBuilder, MessageFlags } = require('discord.js');
+const { isImageUrl, isHexColor } = require('../../utils');
 const userService = require('../../database/management/services/userService');
 const spiritService = require('../../database/management/services/spiritService');
 
@@ -60,13 +61,3 @@ module.exports = {
         }
     },
 };
-
-function isImageUrl(url) {
-    const imageExtensions = /\.(jpg|jpeg|png|gif|bmp|webp)$/i;
-    return imageExtensions.test(url);
-}
-
-function isHexColor(value) {
-    const hexPattern = /^#([0-9A-Fa-f]{3}){1,2}([0-9A-Fa-f]{2})?$/;
-    return hexPattern.test(value);
-}

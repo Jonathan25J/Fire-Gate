@@ -15,22 +15,22 @@ The communication happens through entities known as spirits. Everyone can create
 It's not possible to invite this app.
 
 ## Hosting
-- Have the following software installed: `Node`, `JavaScript` and the `Docker Engine`
+- Have [Node](https://nodejs.org/en) and [Docker Engine](https://docs.docker.com/engine/) installed
 - Create a `.env` file in the root folder with the following content 
 ```bash
 # Bot
-BOT_TOKEN= [BOT TOKEN]
-BOT_CLIENT_ID= [CLIENT ID]
+BOT_TOKEN = [BOT TOKEN]
+BOT_CLIENT_ID = [CLIENT ID]
 
 # Database
-DB_NAME= [DATABASE NAME]
-DB_USER= [DATABASE USER]
-DB_PASSWORD= [DATABASE USER PASSWORD]
+DB_NAME = [DATABASE NAME]
+DB_USER = [DATABASE USER]
+DB_PASSWORD = [DATABASE USER PASSWORD]
 
 ## Internal
-DB_HOST= [DATABASE HOST]
-DB_PORT= [DATABASE PORT]
+DB_HOST = [DATABASE HOST]
+DB_PORT = [DATABASE PORT]
 ```
-- Replace the values inside the brackets `[]` with your values
+- Replace the values inside the brackets `[]` with your values and remove the brackets itself
 - Run `docker compose up -d`
 - Run `node deploy-commands`
