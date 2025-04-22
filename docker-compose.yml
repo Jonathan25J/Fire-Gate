@@ -5,8 +5,6 @@ services:
       dockerfile: bot.dockerfile
     env_file:
       - .env
-    volumes:
-      - ./database/data:/bot/database/data
   database:
     image: postgres:17.2
     environment:
