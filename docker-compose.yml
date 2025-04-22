@@ -3,9 +3,10 @@ services:
     build:
       context: .
       dockerfile: bot.dockerfile
+    env_file:
+      - .env
     volumes:
-      - .:/bot
-      - /bot/node_modules
+      - ./database/data:/bot/database/data
   database:
     image: postgres:17.2
     environment:
