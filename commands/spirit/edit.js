@@ -40,7 +40,7 @@ module.exports = {
             return await interaction.reply({ content: 'You need to provide at least one field to edit', flags: MessageFlags.Ephemeral });
         }
 
-        if (avatarUrl && !isImageUrl(avatarUrl)) {
+        if (avatarUrl && !await isImageUrl(avatarUrl)) {
             return await interaction.reply({ content: 'Invalid image URL. Please provide a valid image URL that ends with an image file extension', flags: MessageFlags.Ephemeral });
         } else if (!avatarUrl) {
             avatarUrl = spirit.avatar;

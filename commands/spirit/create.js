@@ -30,7 +30,7 @@ module.exports = {
 			await userService.createUser(userId);
 		}
 
-		if (avatarUrl && !isImageUrl(avatarUrl)) {
+		if (avatarUrl && !await isImageUrl(avatarUrl)) {
 			return await interaction.reply({ content: 'Invalid image URL. Please provide a valid image URL that ends with an image file extension', flags: MessageFlags.Ephemeral });
 		}
 
