@@ -1,16 +1,21 @@
-const winston = require('winston');
+const { createLogger, format, transports } = require('winston');
 
-const logger = winston.createLogger({
-    level: 'info',
-    format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.printf(({ timestamp, level, message }) => {
-            return `${timestamp} [${level.toUpperCase()}]: ${message}`;
-        })
+const { combine, timestamp, printf, colorize, errors } = format;
+
+const logger = createLogger({
+    format: combine(
+        errors({ stack: true }),
+        colorize(),
+        timestamp(),
+        printf(({ level, message, timestamp, stack }) => {
+            if (stack) {
+                return `${timestamp} ${level}: ${message} - ${stack}`;
+            }
+            return `${timestamp} ${level}: ${message}`;
+        }),
+
     ),
-    transports: [
-        new winston.transports.Console()
-    ]
+    transports: [new transports.Console()],
 });
 
 module.exports = logger;

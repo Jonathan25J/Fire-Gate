@@ -14,14 +14,37 @@ module.exports = {
 			return;
 		}
 
+		// auto-defer if command takes longer than ~2.5s
+		let deferTimer = setTimeout(async () => {
+			if (!interaction.isRepliable()) return;
+			if (!interaction.deferred && !interaction.replied) {
+				try {
+					await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+				} catch (err) {
+					logger.error('Failed to auto-defer interaction:', err);
+				}
+			}
+		}, 2500);
+
 		try {
 			await command.execute(interaction);
+			clearTimeout(deferTimer);
 		} catch (error) {
+			clearTimeout(deferTimer);
 			logger.error(error);
-			if (interaction.replied || interaction.deferred) {
-				await interaction.followUp({ content: 'There was an error while executing this command!', flags: MessageFlags.Ephemeral });
-			} else {
-				await interaction.reply({ content: 'There was an error while executing this command!', flags: MessageFlags.Ephemeral });
+
+			if (!interaction.isRepliable()) return;
+
+			try {
+				if (interaction.replied) {
+					await interaction.followUp({ content: 'There was an error while executing this command!', flags: MessageFlags.Ephemeral });
+				} else if (interaction.deferred) {
+					await interaction.editReply({ content: 'There was an error while executing this command!' });
+				} else {
+					await interaction.reply({ content: 'There was an error while executing this command!', flags: MessageFlags.Ephemeral });
+				}
+			} catch (replyErr) {
+				logger.error('Failed to notify user about command error:', replyErr);
 			}
 		}
 	},
