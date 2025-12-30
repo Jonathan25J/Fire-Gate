@@ -1,7 +1,7 @@
 const { Events, EmbedBuilder } = require('discord.js');
 const path = require('node:path');
 const logger = require(path.join(process.cwd(), 'logger'));
-const { isValidURL, isImageUrl } = require('../utils');
+const { isValidURL, isImageUrl, isTenorUrl, getTenorGifUrl } = require('../utils');
 const userService = require('../database/management/services/userService');
 const gatewayService = require('../database/management/services/gatewayService');
 const spiritService = require('../database/management/services/spiritService');
@@ -28,7 +28,7 @@ module.exports = {
 
         const messageContent = message.content;
         const messageHasContent = messageContent.trim().length > 0;
-
+        
         for (const user of gatewayUsers) {
             const receiver = await message.client.users.fetch(user);
 
@@ -38,11 +38,10 @@ module.exports = {
                 .setColor(spirit.color);
 
             if (messageHasContent && isValidURL(messageContent) ) {
-                if (isImageUrl(messageContent)) {
+                if (await isImageUrl(messageContent)) {
                     embed.setImage(messageContent);
-                } else if (messageContent.startsWith('https://tenor.com')) {
-                    const redirectUrl = await getRedirectUrl(messageContent + '.gif');
-                    embed.setImage(redirectUrl);
+                } else if (isTenorUrl(messageContent)) {
+                    embed.setImage(await getTenorGifUrl(messageContent));
                 } else {
                     embed.setDescription(messageContent);
                 }
@@ -60,8 +59,3 @@ module.exports = {
         }
     },
 };
-
-async function getRedirectUrl(url) {
-    const response = await fetch(url, { redirect: 'follow' });
-    return response.url;
-}
