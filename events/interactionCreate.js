@@ -19,7 +19,7 @@ module.exports = {
 			if (!interaction.isRepliable()) return;
 			if (!interaction.deferred && !interaction.replied) {
 				try {
-					await interaction.deferReply({ ephemeral: true });
+					await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 				} catch (err) {
 					logger.error('Failed to auto-defer interaction:', err);
 				}
