@@ -9,20 +9,22 @@ function isValidURL(string) {
 }
 
 async function isImageUrl(url) {
-
+    if (!isValidURL(url)) return false;
     if (isTenorUrl(url)) return false;
 
-    let res = await fetch(url, { method: 'HEAD' });
+    const imageExtensions = /\.(jpg|jpeg|png|gif|bmp|webp)$/i;
 
-    if (!res.ok || !res.headers.get('content-type')) {
-        const imageExtensions = /\.(jpg|jpeg|png|gif|bmp|webp)$/i;
+    try {
+        let res = await fetch(url, { method: 'HEAD' });
+
+        if (!res.ok || !res.headers.get('content-type')) {
+            return imageExtensions.test(url);
+        }
+
+        return res.headers.get('content-type').startsWith('image');
+    } catch (err) {
         return imageExtensions.test(url);
     }
-
-    return res.headers
-        .get('content-type')
-        .startsWith('image');
-
 }
 
 function isHexColor(value) {
@@ -43,8 +45,12 @@ async function getTenorGifUrl(tenorUrl) {
 }
 
 async function getRedirectUrl(url) {
-    const response = await fetch(url, { redirect: 'follow' });
-    return response.url;
+    try {
+        const response = await fetch(url, { redirect: 'follow' });
+        return response.url;
+    } catch (err) {
+        return url;
+    }
 }
 
 module.exports = {
