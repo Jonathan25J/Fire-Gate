@@ -4,6 +4,7 @@ const listCommand = require('./list');
 const removeCommand = require('./remove');
 const openCommand = require('./open');
 const closeCommand = require('./close');
+const currentCommand = require('./current');
 
 
 module.exports = {
@@ -14,7 +15,8 @@ module.exports = {
         .addSubcommand(listCommand.data)
         .addSubcommand(removeCommand.data)
         .addSubcommand(openCommand.data)
-        .addSubcommand(closeCommand.data),
+        .addSubcommand(closeCommand.data)
+        .addSubcommand(currentCommand.data),
 
 	async execute(interaction) {
 		const subcommand = interaction.options.getSubcommand();
@@ -34,6 +36,9 @@ module.exports = {
                 break;
             case 'close':
                 await closeCommand.execute(interaction);
+                break;
+            case 'current':
+                await currentCommand.execute(interaction);
                 break;
             default:
                 await interaction.reply({ content: 'Unknown subcommand', flags: MessageFlags.Ephemeral });
